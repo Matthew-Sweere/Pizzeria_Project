@@ -2,6 +2,7 @@ from django import forms
 
 from .models import Pizza
 from .models import Topping
+from .models import Comment
 
 class PizzaForm(forms.ModelForm):
     class Meta:
@@ -19,4 +20,15 @@ class ToppingForm(forms.ModelForm):
         # customize the input widget for the field 'text' so the text area
         # will be 80 columns wide instead of the default 40
         widgets = {'name': forms.Textarea(attrs={'cols': 80})}
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+        labels = {'text': 'Comment:'}
+        # A widget is an HTML form element, such as a single-line text box,
+        # a multi-line text area, or drop-down list.
+        # customize the input widget for the field 'text' so the text area
+        # will be 80 columns wide instead of the default 40
+        widgets = {'text': forms.Textarea(attrs={'cols': 80})}
     

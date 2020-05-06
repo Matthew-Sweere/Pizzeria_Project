@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import PizzaForm, ToppingForm
-from .models import Pizza, Topping
+from .forms import PizzaForm, ToppingForm, CommentForm
+from .models import Pizza, Topping, Comment
 
 # Create your views here.
 
@@ -27,7 +27,9 @@ def pizza(request, pizza_id):
     # just like we did in MyShell.py
     pizza = Pizza.objects.get(id = pizza_id)
     # foreign key can be accessed using '_set'
-    context = {'pizza': pizza, 'toppings': toppings}
+    toppings = pizza.topping_set.order_by('name')
+    comments = pizza.comment_set.order_by('-date_added')
+    context = {'pizza': pizza, 'toppings': toppings, 'comments': comments}
 
     return render(request, 'Pizzerias/pizza.html', context)
 
@@ -96,4 +98,25 @@ def edit_topping(request, topping_id):
 
     context = {'topping': topping, 'pizza': pizza, 'form': form}
     return render(request, 'Pizzerias/edit_topping.html', context)
+
+
+def new_comment(request, pizza_id):
+    pizza = Pizza.objects.get(id = pizza_id)
+    if request.method != 'POST':
+        form = CommentForm()
+    else:
+        form = CommentForm(data = request.POST)
+
+        if form.is_valid():
+            # When we call save(), we include the argument commit=False to tell Django to create
+            # a new entry object and assign it to new_entry without saving it to the database yet.
+            new_comment = form.save(commit=False)
+            # assigns the topic of the new entry based on the topic we pulled from topic_id
+            new_comment.pizza = pizza
+            new_comment.save()
+            form.save()
+            return redirect('Pizzerias:pizza', pizza_id = pizza_id)
+
+    context = {'form': form, 'pizza': pizza}
+    return render(request, 'Pizzerias/new_comment.html', context)
 

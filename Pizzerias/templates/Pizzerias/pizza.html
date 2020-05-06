@@ -8,11 +8,8 @@
 
         {% for topping in toppings %}
         <li>
-            <!-- a vertical line (|) represents a template filter
-                -a function that modifies the value in a template variable -->
-            <p>{{ topping.date_added|date:'M d, Y H:i' }} </p>
             <!-- The filter linebreaks ensures that long text entries include line breaks -->
-            <p>{{ topping.text|linebreaks }} </p>
+            <p>{{ topping.name|linebreaks }} </p>
             <p>
                 <a href="{% url 'Pizzerias:edit_topping' topping.id %}">Edit topping</a>
             </p>
@@ -24,6 +21,25 @@
 
     <p>
         <a href="{% url 'Pizzerias:new_topping' pizza.id %}">Add a new topping</a>
+    </p>
+
+    <ul>
+
+        {% for comment in comments %}
+        <li>
+            <!-- a vertical line (|) represents a template filter
+            -a function that modifies the value in a template variable -->
+            <p>{{ comment.date_added|date:'M d, Y H:i' }} </p>
+            <!-- The filter linebreaks ensures that long text entries include line breaks -->
+            <p>{{ comment.text|linebreaks }} </p>
+        </li>
+        {% empty %} <!-- if the list is empty then display message -->
+            <li>There are no comments for this pizza.</li>
+            {% endfor %}
+    </ul>
+
+    <p>
+        <a href="{% url 'Pizzerias:new_comment' pizza.id %}">Add a new comment</a>
     </p>
 
 {% endblock content %}

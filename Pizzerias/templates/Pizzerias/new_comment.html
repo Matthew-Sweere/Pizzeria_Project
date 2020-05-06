@@ -1,0 +1,19 @@
+{% extends "Pizzerias/base.html" %}
+
+    {% block content %}
+
+    <!-- includes the topic_id value in the URL, so the view function can associate the new entry
+        with the correct topic-->
+    <p><a href="{% url 'Pizzerias:pizza' pizza.id %}">{{ pizza }}</a>
+    </p>
+
+        <p>Add a new comment:</p>
+    
+    <form action="{% url 'Pizzerias:new_comment' pizza.id %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button name="submit">Add comment</button>
+    </form>
+
+{% endblock content %}
