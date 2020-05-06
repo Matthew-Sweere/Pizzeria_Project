@@ -1,0 +1,25 @@
+{% block content %}
+
+<p>Pizzas</p>
+
+<!-- In standard HTMl, a bulleted list is called an unordered list
+    and is indicated by the tags <ul></ul>. -->
+
+<ul>
+    <!-- for loop to loop through each topic
+        NOTE: not like python, needs an endfor -->
+    {% for pizza in pizzas %}
+
+    <!-- To print a variable in a template, wrap the
+        variable name in double braces -->
+    <li>
+        <a href ="{% url 'Pizzerias:pizza' pizza.id %}">{{ pizza }}</a>
+    </li> <!-- li - list item -->
+    {% empty %} <!-- if the list is empty, then display message -->
+        <li>No pizzas have been added yet.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'Pizzerias:new_pizza' %}">Add a new pizza</a>
+
+{% endblock content %}

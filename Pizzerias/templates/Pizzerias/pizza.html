@@ -1,0 +1,29 @@
+{% extends "Pizzerias/base.html" %}
+
+{% block content %}
+
+    <p>Topic: {{ pizza }}</p>
+
+    <ul>
+
+        {% for topping in toppings %}
+        <li>
+            <!-- a vertical line (|) represents a template filter
+                -a function that modifies the value in a template variable -->
+            <p>{{ topping.date_added|date:'M d, Y H:i' }} </p>
+            <!-- The filter linebreaks ensures that long text entries include line breaks -->
+            <p>{{ topping.text|linebreaks }} </p>
+            <p>
+                <a href="{% url 'Pizzerias:edit_topping' topping.id %}">Edit topping</a>
+            </p>
+        </li>
+        {% empty %} <!-- if the list is empty then display message -->
+            <li>There are no toppings for this pizza.</li>
+            {% endfor %}
+    </ul>
+
+    <p>
+        <a href="{% url 'Pizzerias:new_topping' pizza.id %}">Add a new topping</a>
+    </p>
+
+{% endblock content %}

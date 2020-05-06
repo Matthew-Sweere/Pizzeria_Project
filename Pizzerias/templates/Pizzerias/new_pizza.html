@@ -1,0 +1,26 @@
+{% extends "Pizzerias/base.html" %}
+
+    {% block content %}
+        <p>Add a new pizza:</p>
+
+
+        <!-- define an HTML form. The action argument tells the browser where
+            to send the data submitted in the form-->
+    <form action="{% url 'Pizzerias:new_pizza' %}" method='post'>
+
+        <!-- Django uses the template tag {% csrf_token %} to prevent attackers
+            from using the form to gain unauthorized access to the server-->
+        {% csrf_token %}
+
+        <!-- We only need to include the template variable {{form.as_p }} for
+            Django to create all the fields necessary to display the form automatically.
+            The as_p modifier tells Django to render all the form elements in paragraph format,
+            as a simple way to display the form neatly.-->
+        {{ form.as_p }}
+
+        <!-- create a submit button-->
+        <button name="submit">Add pizza</button>
+    </form>
+
+    {% endblock content %}
+
