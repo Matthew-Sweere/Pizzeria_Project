@@ -33,13 +33,13 @@ def pizza(request, pizza_id):
 
 def new_pizza(request):
     if request.method != 'POST':
-        # No data submitted; create a blank form (create an instance of TopicForm).
-        # Because we included no arguments when instantiating TopicForm, Django
+        # No data submitted; create a blank form (create an instance of PizzaForm).
+        # Because we included no arguments when instantiating PizzaForm, Django
         # creates a blank form that the user can fill out
         form = PizzaForm()
     else:
         # POST data submitted; process data
-        # We make an instance of TopicForm and pass it the data entered by the user,
+        # We make an instance of PizzaForm and pass it the data entered by the user,
         # stored in request.POST
         form = PizzaForm(data = request.POST)
         # The is_valid() method checks that all required fields have been filled
@@ -47,11 +47,12 @@ def new_pizza(request):
         # matches the field types expected
         if form.is_valid():
             # write the data from the form to the database
-            form.save()
-            # redirect the user's browser to the topics page
+            new_pizza = form.save(commit=False)
+            new_pizza.save()
+            # redirect the user's browser to the pizzas page
             return redirect('Pizzerias:pizzas')
 
-    # Display a blank form using the new_topic.html template
+    # Display a blank form using the new_pizza.html template
     context = {'form': form}
     return render(request, 'Pizzerias/new_pizza.html', context)
 
