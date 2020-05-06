@@ -13,6 +13,7 @@ def index(request):
 
     
 def pizzas(request):
+    pizzas = Pizza.objects.all()
     # A context is a dictionary in which the keys are names we'll use
     # in the template to access the data, and the values are the data
     # we need to send to the template. In this case, there is one key-value pair,
@@ -47,8 +48,8 @@ def new_pizza(request):
         # matches the field types expected
         if form.is_valid():
             # write the data from the form to the database
-            new_pizza = form.save(commit=False)
-            new_pizza.save()
+            #new_pizza = form.save(commit=False)
+            form.save()
             # redirect the user's browser to the pizzas page
             return redirect('Pizzerias:pizzas')
 
